@@ -1,0 +1,39 @@
+var webpack=require('webpack');
+module.exports={
+    entry:'./src/app.js',
+    output:{
+        path:__dirname + '/build',
+        filename:'bundle.js'
+    },
+    module:{
+        rules:[{
+            test:/\.js$/,
+            exclude:/node_modules/,
+            loader:'babel-loader',
+            query:{
+                plugins:['transform-runtime'],
+                presets:['es2015','react','stage-2']
+            }
+        },{
+            test:/\.css$/,
+            use:[
+                'style-loader',
+                {
+                    loader:'css-loader',
+                    options:{importLoaders:1}
+                },
+                {
+                    loader:'postcss-loader',
+                    options:{
+                        plugins:(loader)=>[
+                            require('autoprefixer')({
+                                browsers:['last 5 versions']
+                            })
+                        ]
+                    }
+                }
+            ]         
+        }
+        ]
+    }
+}
